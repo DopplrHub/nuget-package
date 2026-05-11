@@ -1,15 +1,15 @@
 using System.Text.Json.Nodes;
 
-namespace DopplerHub;
+namespace DopplrHub;
 
 public sealed class ToolsClient
 {
-    public ToolsClient(DopplerHubClient client)
+    public ToolsClient(DopplrHubClient client)
     {
         Client = client;
     }
 
-    private DopplerHubClient Client { get; }
+    private DopplrHubClient Client { get; }
 
     public Task<ConversionJob> PdfMergeAsync(
         IEnumerable<object> sources,
@@ -75,7 +75,7 @@ public sealed class ToolsClient
         int? height = null,
         string? originalName = null,
         CancellationToken cancellationToken = default)
-        => PdfAsync(source, "resize", DopplerHubClient.FilterNulls(new JsonObject
+        => PdfAsync(source, "resize", DopplrHubClient.FilterNulls(new JsonObject
         {
             ["width"] = width,
             ["height"] = height,
@@ -137,7 +137,7 @@ public sealed class ToolsClient
         var upload = await Client.NormalizeUploadAsync(source, cancellationToken);
         return await Client.SubmitJobAsync(
             "/tools/social-resize",
-            DopplerHubClient.FilterNulls(new JsonObject
+            DopplrHubClient.FilterNulls(new JsonObject
             {
                 ["fileId"] = upload.FileId,
                 ["inputKey"] = upload.InputKey,
@@ -159,7 +159,7 @@ public sealed class ToolsClient
         string outputFormat = "jpg",
         string? originalName = null,
         CancellationToken cancellationToken = default)
-        => ImageAsync(source, "resize", DopplerHubClient.FilterNulls(new JsonObject
+        => ImageAsync(source, "resize", DopplrHubClient.FilterNulls(new JsonObject
         {
             ["width"] = width,
             ["height"] = height,
@@ -217,7 +217,7 @@ public sealed class ToolsClient
         string outputFormat = "jpg",
         string? originalName = null,
         CancellationToken cancellationToken = default)
-        => ImageAsync(source, "upscale", DopplerHubClient.FilterNulls(new JsonObject
+        => ImageAsync(source, "upscale", DopplrHubClient.FilterNulls(new JsonObject
         {
             ["scale"] = scale,
             ["width"] = width,
@@ -235,7 +235,7 @@ public sealed class ToolsClient
         => VideoAsync(source, "trim", new JsonObject
         {
             ["outputFormat"] = outputFormat,
-            ["trim"] = DopplerHubClient.FilterNulls(new JsonObject
+            ["trim"] = DopplrHubClient.FilterNulls(new JsonObject
             {
                 ["enabled"] = true,
                 ["startTime"] = startTime,
@@ -253,7 +253,7 @@ public sealed class ToolsClient
         => VideoAsync(source, "extract", new JsonObject
         {
             ["outputFormat"] = outputFormat,
-            ["trim"] = DopplerHubClient.FilterNulls(new JsonObject
+            ["trim"] = DopplrHubClient.FilterNulls(new JsonObject
             {
                 ["enabled"] = true,
                 ["startTime"] = startTime,
@@ -319,7 +319,7 @@ public sealed class ToolsClient
             var mergeSources = source as IEnumerable<object> ?? sources;
             if (mergeSources is null)
             {
-                throw new DopplerHubException("PDF merge requires an array of sources.");
+                throw new DopplrHubException("PDF merge requires an array of sources.");
             }
 
             var uploads = await Client.NormalizeUploadsAsync(mergeSources, cancellationToken);
@@ -400,7 +400,7 @@ public sealed class ToolsClient
         var response = await Client.RequestJsonAsync(
             HttpMethod.Post,
             "/tools/ada/analyze",
-            DopplerHubClient.FilterNulls(new JsonObject
+            DopplrHubClient.FilterNulls(new JsonObject
             {
                 ["fileId"] = upload.FileId,
                 ["inputKey"] = upload.InputKey,
@@ -425,7 +425,7 @@ public sealed class ToolsClient
         var response = await Client.RequestJsonAsync(
             HttpMethod.Post,
             "/tools/ats/analyze",
-            DopplerHubClient.FilterNulls(new JsonObject
+            DopplrHubClient.FilterNulls(new JsonObject
             {
                 ["fileId"] = upload.FileId,
                 ["inputKey"] = upload.InputKey,
@@ -451,7 +451,7 @@ public sealed class ToolsClient
         var response = await Client.RequestJsonAsync(
             HttpMethod.Post,
             "/tools/ats/reexport",
-            DopplerHubClient.FilterNulls(new JsonObject
+            DopplrHubClient.FilterNulls(new JsonObject
             {
                 ["report"] = report,
                 ["templateId"] = templateId,

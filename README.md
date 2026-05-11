@@ -1,11 +1,11 @@
-# DopplerHub NuGet Package
+# DopplrHub NuGet Package
 
-A .NET SDK for the current DopplerHub public API, including generic conversions, tools, and utility endpoints.
+A .NET SDK for the current DopplrHub public API, including generic conversions, tools, and utility endpoints.
 
 ## Install
 
 ```bash
-dotnet add package DopplerHub
+dotnet add package DopplrHub
 ```
 
 ## Local file conversion
@@ -13,9 +13,9 @@ dotnet add package DopplerHub
 The starter sample in `Examples/ConvertLocalFile.cs` now covers both a basic conversion flow and tool usage, including a queued PDF tool job and an immediate ADA analysis download.
 
 ```csharp
-using DopplerHub;
+using DopplrHub;
 
-using var api = new DopplerHubClient("YOUR_API_KEY", "http://localhost:3001/api/v1");
+using var api = new DopplrHubClient("YOUR_API_KEY", "http://localhost:3001/api/v1");
 
 var job = await api.StartAsync("./input.pdf", "jpg");
 await job.WaitAsync();
@@ -108,5 +108,5 @@ Tool coverage in the .NET SDK:
 
 ## Important behavior note
 
-`StartFromUrlAsync()` currently downloads the remote resource first, then uploads it into DopplerHub.
+`StartFromUrlAsync()` currently downloads the remote resource first, then uploads it into DopplrHub.
 It does not perform headless browser webpage rendering.

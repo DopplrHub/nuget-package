@@ -6,7 +6,7 @@
     <PackageId>DopplrHub</PackageId>
     <Version>0.1.0</Version>
     <Authors>Dopplr Hub</Authors>
-    <Description>.NET SDK for the DopplrHub public API.</Description>
+    <Description>.NET SDK for the DopplerHub public API.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Title>Dopplr Hub</Title>
     <Copyright>Dopplr Hub 2026</Copyright>

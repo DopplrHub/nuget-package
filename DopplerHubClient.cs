@@ -3,14 +3,14 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace DopplerHub;
+namespace DopplrHub;
 
-public sealed class DopplerHubClient : IDisposable
+public sealed class DopplrHubClient : IDisposable
 {
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
     private readonly HttpClient _httpClient;
 
-    public DopplerHubClient(string apiKey, string? baseUrl = null, HttpClient? httpClient = null)
+    public DopplrHubClient(string apiKey, string? baseUrl = null, HttpClient? httpClient = null)
     {
         ApiKey = apiKey;
         BaseUrl = (baseUrl ?? "https://api.dopplrhub.com/api/v1").TrimEnd('/');
@@ -32,7 +32,7 @@ public sealed class DopplerHubClient : IDisposable
         var fullPath = Path.GetFullPath(filePath);
         if (!File.Exists(fullPath))
         {
-            throw new DopplerHubException($"Input file not found: {filePath}");
+            throw new DopplrHubException($"Input file not found: {filePath}");
         }
 
         await using var stream = File.OpenRead(fullPath);
@@ -80,7 +80,7 @@ public sealed class DopplerHubClient : IDisposable
         string targetFormat,
         CancellationToken cancellationToken = default)
     {
-        var tempFile = Path.Combine(Path.GetTempPath(), $"dopplerhub_{Guid.NewGuid():N}{Path.GetExtension(fileName)}");
+        var tempFile = Path.Combine(Path.GetTempPath(), $"DopplrHub_{Guid.NewGuid():N}{Path.GetExtension(fileName)}");
         await File.WriteAllBytesAsync(tempFile, contents, cancellationToken);
 
         try
@@ -143,7 +143,7 @@ public sealed class DopplerHubClient : IDisposable
         var response = await _httpClient.GetAsync(url, cancellationToken);
         if (!response.IsSuccessStatusCode)
         {
-            throw new DopplerHubException($"Download failed with HTTP {(int)response.StatusCode}.", (int)response.StatusCode);
+            throw new DopplrHubException($"Download failed with HTTP {(int)response.StatusCode}.", (int)response.StatusCode);
         }
 
         var directory = Path.GetDirectoryName(targetPath);
@@ -170,7 +170,7 @@ public sealed class DopplerHubClient : IDisposable
             case string filePath:
                 return await UploadAsync(filePath, cancellationToken);
             default:
-                throw new DopplerHubException("Source must be a local file path, remote URL, UploadedFile, or upload response object.");
+                throw new DopplrHubException("Source must be a local file path, remote URL, UploadedFile, or upload response object.");
         }
     }
 
@@ -179,7 +179,7 @@ public sealed class DopplerHubClient : IDisposable
         var list = sources.ToList();
         if (list.Count == 0)
         {
-            throw new DopplerHubException("At least one source is required.");
+            throw new DopplrHubException("At least one source is required.");
         }
 
         var uploads = new List<UploadedFile>(list.Count);
@@ -250,11 +250,11 @@ public sealed class DopplerHubClient : IDisposable
 
         try
         {
-            return JsonNode.Parse(bodyText)?.AsObject() ?? throw new DopplerHubException($"Expected JSON object for {method} {requestPath}.");
+            return JsonNode.Parse(bodyText)?.AsObject() ?? throw new DopplrHubException($"Expected JSON object for {method} {requestPath}.");
         }
         catch (JsonException ex)
         {
-            throw new DopplerHubException($"Expected JSON response for {method} {requestPath}, got: {bodyText}", null, ex);
+            throw new DopplrHubException($"Expected JSON response for {method} {requestPath}, got: {bodyText}", null, ex);
         }
     }
 
@@ -308,16 +308,16 @@ public sealed class DopplerHubClient : IDisposable
         return string.IsNullOrWhiteSpace(name) ? "remote-input.bin" : name;
     }
 
-    private static DopplerHubException BuildException(HttpResponseMessage response, string bodyText)
+    private static DopplrHubException BuildException(HttpResponseMessage response, string bodyText)
     {
         try
         {
             var error = JsonNode.Parse(bodyText)?["error"]?.GetValue<string>();
-            return new DopplerHubException(error ?? $"HTTP {(int)response.StatusCode}", (int)response.StatusCode);
+            return new DopplrHubException(error ?? $"HTTP {(int)response.StatusCode}", (int)response.StatusCode);
         }
         catch (JsonException)
         {
-            return new DopplerHubException($"HTTP {(int)response.StatusCode}", (int)response.StatusCode);
+            return new DopplrHubException($"HTTP {(int)response.StatusCode}", (int)response.StatusCode);
         }
     }
 

@@ -1,10 +1,10 @@
 using System.Text.Json.Nodes;
 
-namespace DopplerHub;
+namespace DopplrHub;
 
 public sealed class ImmediateResult
 {
-    public ImmediateResult(DopplerHubClient client, JsonObject payload, string downloadUrlField, string? downloadKeyField = null, string? defaultFileName = null)
+    public ImmediateResult(DopplrHubClient client, JsonObject payload, string downloadUrlField, string? downloadKeyField = null, string? defaultFileName = null)
     {
         Client = client;
         Payload = payload;
@@ -13,7 +13,7 @@ public sealed class ImmediateResult
         DefaultFileName = defaultFileName;
     }
 
-    private DopplerHubClient Client { get; }
+    private DopplrHubClient Client { get; }
 
     public JsonObject Payload { get; }
 
@@ -28,7 +28,7 @@ public sealed class ImmediateResult
         var downloadUrl = Payload[DownloadUrlField]?.GetValue<string>();
         if (string.IsNullOrWhiteSpace(downloadUrl))
         {
-            throw new DopplerHubException("Response did not include a download URL.");
+            throw new DopplrHubException("Response did not include a download URL.");
         }
 
         await Client.DownloadFileAsync(downloadUrl, targetPath ?? GetDefaultDownloadPath(), cancellationToken);

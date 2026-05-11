@@ -1,6 +1,6 @@
 using System.Text.Json.Nodes;
 
-namespace DopplerHub;
+namespace DopplrHub;
 
 public sealed class UploadedFile
 {

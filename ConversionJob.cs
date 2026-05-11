@@ -1,16 +1,16 @@
 using System.Text.Json.Nodes;
 
-namespace DopplerHub;
+namespace DopplrHub;
 
 public sealed class ConversionJob
 {
-    public ConversionJob(DopplerHubClient client, JsonObject payload)
+    public ConversionJob(DopplrHubClient client, JsonObject payload)
     {
         Client = client;
         Payload = payload;
     }
 
-    internal DopplerHubClient Client { get; }
+    internal DopplrHubClient Client { get; }
 
     public JsonObject Payload { get; private set; }
 
@@ -36,13 +36,13 @@ public sealed class ConversionJob
             if (state == "completed") return this;
             if (state == "failed")
             {
-                throw new DopplerHubException(Payload["failedReason"]?.GetValue<string>() ?? "Conversion failed.");
+                throw new DopplrHubException(Payload["failedReason"]?.GetValue<string>() ?? "Conversion failed.");
             }
 
             await Task.Delay(TimeSpan.FromSeconds(Math.Max(pollSeconds, 1)), cancellationToken);
         }
 
-        throw new DopplerHubException($"Timed out waiting for conversion job {JobId}");
+        throw new DopplrHubException($"Timed out waiting for conversion job {JobId}");
     }
 
     public async Task<ConversionJob> DownloadAsync(string? targetPath = null, CancellationToken cancellationToken = default)
@@ -54,13 +54,13 @@ public sealed class ConversionJob
 
         if (!string.Equals(State, "completed", StringComparison.OrdinalIgnoreCase))
         {
-            throw new DopplerHubException($"Job {JobId} is not completed.");
+            throw new DopplrHubException($"Job {JobId} is not completed.");
         }
 
         var downloadUrl = Payload["downloadUrl"]?.GetValue<string>();
         if (string.IsNullOrWhiteSpace(downloadUrl))
         {
-            throw new DopplerHubException("Completed job did not include a downloadUrl.");
+            throw new DopplrHubException("Completed job did not include a downloadUrl.");
         }
 
         await Client.DownloadFileAsync(downloadUrl, targetPath ?? GetDefaultDownloadPath(), cancellationToken);

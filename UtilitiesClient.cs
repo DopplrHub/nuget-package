@@ -1,15 +1,15 @@
 using System.Text.Json.Nodes;
 
-namespace DopplerHub;
+namespace DopplrHub;
 
 public sealed class UtilitiesClient
 {
-    public UtilitiesClient(DopplerHubClient client)
+    public UtilitiesClient(DopplrHubClient client)
     {
         Client = client;
     }
 
-    private DopplerHubClient Client { get; }
+    private DopplrHubClient Client { get; }
 
     public Task<JsonObject> SupportedFormatsAsync(CancellationToken cancellationToken = default)
         => Client.RequestJsonAsync(HttpMethod.Get, "/upload/formats", cancellationToken: cancellationToken);
@@ -22,7 +22,7 @@ public sealed class UtilitiesClient
         var ids = jobIds.ToList();
         if (ids.Count == 0)
         {
-            throw new DopplerHubException("jobIds must be a non-empty array.");
+            throw new DopplrHubException("jobIds must be a non-empty array.");
         }
 
         var response = await Client.SendAsync(
@@ -38,7 +38,7 @@ public sealed class UtilitiesClient
         if (!response.IsSuccessStatusCode)
         {
             var bodyText = await response.Content.ReadAsStringAsync(cancellationToken);
-            throw new DopplerHubException($"Batch download failed: {bodyText}", (int)response.StatusCode);
+            throw new DopplrHubException($"Batch download failed: {bodyText}", (int)response.StatusCode);
         }
 
         var directory = Path.GetDirectoryName(targetPath);

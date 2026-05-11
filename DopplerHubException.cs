@@ -1,8 +1,8 @@
-namespace DopplerHub;
+namespace DopplrHub;
 
-public sealed class DopplerHubException : Exception
+public sealed class DopplrHubException : Exception
 {
-    public DopplerHubException(string message, int? statusCode = null, Exception? innerException = null)
+    public DopplrHubException(string message, int? statusCode = null, Exception? innerException = null)
         : base(message, innerException)
     {
         StatusCode = statusCode;
