@@ -1,6 +1,6 @@
 # DopplrHub NuGet Package
 
-A .NET SDK for the current DopplrHub public API, including generic conversions, tools, and utility endpoints.
+A .NET SDK for the current DopplrHubpublic API, including generic conversions, tools, and utility endpoints.
 
 ## Install
 
