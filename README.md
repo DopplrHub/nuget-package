@@ -15,7 +15,7 @@ The starter sample in `Examples/ConvertLocalFile.cs` now covers both a basic con
 ```csharp
 using DopplrHub;
 
-using var api = new DopplrHubClient("YOUR_API_KEY", "http://localhost:3001/api/v1");
+using var api = new DopplrHubClient("YOUR_API_KEY", "https://api.dopplrhub.com/api/v1");
 
 var job = await api.StartAsync("./input.pdf", "jpg");
 await job.WaitAsync();
