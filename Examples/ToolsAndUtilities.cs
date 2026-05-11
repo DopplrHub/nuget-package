@@ -1,7 +1,7 @@
-using DopplerHub;
+using DopplrHub;
 using System.Text.Json;
 
-using var api = new DopplerHubClient("YOUR_API_KEY", "https://api.dopplrhub.com/api/v1");
+using var api = new DopplrHubClient("YOUR_API_KEY", "https://api.dopplrhub.com/api/v1");
 
 var rates = await api.Utilities.CurrencyRatesAsync("USD");
 Console.WriteLine(rates["base"]);
