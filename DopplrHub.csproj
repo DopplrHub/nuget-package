@@ -16,6 +16,11 @@
     <PackageIcon>281412681.png</PackageIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Examples\**" />
+    <EmbeddedResource Remove="Examples\**" />
+    <None Remove="Examples\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="281412681.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
